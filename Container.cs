@@ -1,23 +1,4 @@
 namespace APBD_1;
-
-// Wszystkie kontenery powinny pozwolić na:
-// Kontenery na płyny (L)
-    // Kontenery na płyny pozwalają na przewożenie ładunku niebezpiecznego (np. paliwo) i ładunku zwykłego (np. mleko).
-// Kontenery na gaz (G)
-    // Kontenery przechowujące gaz przechowują dodatkową informacje na temat ciśnienia (w atmosferach).
-// Kontener chłodniczy (C)
-    // Kontener chłodniczy zawiera informacje na temat:
-// Numer seryjny
-// Format numeru to KON-C-1
-// Pierwszy człon numery to zawsze "KON"
-// Drugi człon reprezentuje rodzaj kontenera
-// Trzeci człon to liczba. Liczby powinny być unikalne. Nie powinno być możliwości powstania dwóch kontenerów o tym
-// samym numerze. Numery powinny być generowane przez system.
-
-// Maksymalna ładowność danego kontenera w kilogramach
-// Opróżnienie ładunku
-// Załadowanie kontenera daną masą ładunku
-// Jeśli masa ładunku jest większa niż pojemność danego kontenera powinniśmy wyrzucić błąd OverfillException
 public class Container : IHazardNotifier
 {
     private int _productId;
@@ -33,9 +14,9 @@ public class Container : IHazardNotifier
         
     ///<summary>
     /// Te wartości są auto-increment podczas generacji serial container'u, 
-    private int _liquidTypeContainer;
-    private int _gasTypeContainer;
-    private int _coolerTypeContainer;
+    private static int _liquidTypeContainer;
+    private static int _gasTypeContainer;
+    private static int _coolerTypeContainer;
     
     private Dictionary <int, Product> _productsOnTheShip = new Dictionary<int, Product>();
 
@@ -183,13 +164,11 @@ public class Container : IHazardNotifier
             }
             else
             {
-                // throw new OverfillException($"Unable to load the container with the serialNumber: {SerialNumber}, The container is too small to load the cargo.");
                 throw new OverfillException($"Unable to load the container with the Serial Number: {SerialNumber}. The total weight of the products is: ({Product.TotalProductsWeight}) and it's exceeds the container capacity ({Capacity}).");
             }
         }
         catch (OverfillException ex)
         {
-            //throw new OverfillException("The container Capacity is too small for your Products Total Weight!");
             Console.WriteLine($"Error: {ex.Message}");
             Console.WriteLine($"The container could not be loaded as it exceeds the capacity.");
         }
