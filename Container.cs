@@ -1,7 +1,7 @@
 namespace APBD_1;
-public class Container : IHazardNotifier
+public class Container
 {
-    private int _productId;
+    //private int _productId;
     
     private string _serialNumber = string.Empty;
     
@@ -13,7 +13,8 @@ public class Container : IHazardNotifier
     private int _width; //Gębokość (w centymetrach)
         
     ///<summary>
-    /// Te wartości są auto-increment podczas generacji serial container'u, 
+    /// Te wartości są auto-increment podczas generacji serial container'u,
+    /// </summary>
     private static int _liquidTypeContainer;
     private static int _gasTypeContainer;
     private static int _coolerTypeContainer;
@@ -26,11 +27,11 @@ public class Container : IHazardNotifier
         private set => _productsOnTheShip = value ?? throw new ArgumentNullException(nameof(value));
     }
 
-    public Container(string containerType, double cargoWeight, double containerWeight, double capacity, int height, int width)
+    public Container(string containerType, double containerWeight, double capacity, int height, int width)
     {
         SerialNumber = containerType;
         
-        CargoWeight = cargoWeight;
+        // CargoWeight = cargoWeight;
         ContainerWeight = containerWeight;
         Capacity = capacity;
         
@@ -111,7 +112,7 @@ public class Container : IHazardNotifier
         get => _serialNumber;
     }
 
-    public string toString()
+    public string ToString()
     {
         return $"Serial number: {SerialNumber}, Cargo Weight: {CargoWeight}, Container Capacity {Capacity} Container Weight: {ContainerWeight},  Width: {Width}, Height: {Height}";
     }
@@ -138,7 +139,7 @@ public class Container : IHazardNotifier
         // }
     }
 
-    public void LoadTheContainer(Dictionary<int, Product> products)
+    public virtual void LoadTheContainer(Dictionary<int, Product> products)
     {
         Console.WriteLine($"Loading the container with the serialNumber: {SerialNumber}");
         //dodac exception dla productow jesli nullorempty etc
@@ -154,17 +155,19 @@ public class Container : IHazardNotifier
         
         try
         {
-            if (Capacity >= Product.TotalProductsWeight)
+            if (Capacity >= Product.TotalProductsWeight + ContainerWeight)
             {
                 foreach (var product in products)
                 {
                     ProductsOnTheShip.Add(product.Key, product.Value);
                 }
+                CargoWeight = Product.TotalProductsWeight;
+                
                 Console.WriteLine($"The container has been loaded with products, the capacity left in the container {Capacity - Product.TotalProductsWeight}");
             }
             else
             {
-                throw new OverfillException($"Unable to load the container with the Serial Number: {SerialNumber}. The total weight of the products is: ({Product.TotalProductsWeight}) and it's exceeds the container capacity ({Capacity}).");
+                throw new OverfillException($"Unable to load the container with the Serial Number: {SerialNumber}. The total weight of the products is: ({Product.TotalProductsWeight}) and Weight of the container is ({ContainerWeight}) it's exceeds the container capacity ({Capacity}).");
             }
         }
         catch (OverfillException ex)
@@ -173,15 +176,5 @@ public class Container : IHazardNotifier
             Console.WriteLine($"The container could not be loaded as it exceeds the capacity.");
         }
     }
-
-
-    public void Notify(string containerNumber, string message)
-    {
-        
-    }
-
-    public void Notify(string message)
-    {
-        throw new NotImplementedException();
-    }
+    
 }
