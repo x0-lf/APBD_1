@@ -6,6 +6,7 @@ public class LiquidContainer : Container, IHazardNotifier
 
     private double _capacityModifier;
 
+    
     public bool DangerousContainer
     {
         get => _dangerousContainer;
@@ -29,6 +30,11 @@ public class LiquidContainer : Container, IHazardNotifier
     
     public override void LoadTheContainer(Dictionary<int, Product> products)
     {
+        if (products.Count == 0)
+        {
+            Console.WriteLine("No products to load.");
+            return;
+        }
         Console.WriteLine($"Loading the container with the serialNumber: {SerialNumber}");
         //dodac exception dla productow jesli nullorempty etc
         Console.WriteLine($"Products for this container: ");
@@ -101,27 +107,11 @@ public class LiquidContainer : Container, IHazardNotifier
         }
     }
     
-    public void EmptyTheCargo()
-    {
-        
-        // Console.WriteLine("All of the products before EmptyTheCargo");
-        // foreach (var product in ProductsOnTheShip)
-        // {
-        //     Console.WriteLine(product.ToString());
-        // }
-        
-        Console.WriteLine("Removing Products: ");
-        foreach (var product in ProductsOnTheShip)
-        {
-            ProductsOnTheShip.Remove(product.Key);
-        }
-        
-        // Console.WriteLine("All of the products after EmptyTheCargo");
-        // foreach (var product in ProductsOnTheShip)
-        // {
-        //     Console.WriteLine(product.ToString());
-        // }
-    }
+    // public override void EmptyTheCargo()
+    // {
+    //     ProductsOnTheShip.Clear();
+    //     CargoWeight = 0;
+    // }
 
     public void Notify(string containerNumber, string message)
     {

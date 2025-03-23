@@ -24,7 +24,7 @@ public class Container
     public Dictionary<int, Product> ProductsOnTheShip
     {
         get => _productsOnTheShip;
-        private set => _productsOnTheShip = value ?? throw new ArgumentNullException(nameof(value));
+        set => _productsOnTheShip = value ?? throw new ArgumentNullException(nameof(value));
     }
 
     public Container(string containerType, double containerWeight, double capacity, int height, int width)
@@ -117,30 +117,20 @@ public class Container
         return $"Serial number: {SerialNumber}, Cargo Weight: {CargoWeight}, Container Capacity {Capacity} Container Weight: {ContainerWeight},  Width: {Width}, Height: {Height}";
     }
 
-    public void EmptyTheCargo()
+    public virtual void EmptyTheCargo()
     {
-        
-        // Console.WriteLine("All of the products before EmptyTheCargo");
-        // foreach (var product in ProductsOnTheShip)
-        // {
-        //     Console.WriteLine(product.ToString());
-        // }
-        
         Console.WriteLine("Removing Products: ");
-        foreach (var product in ProductsOnTheShip)
-        {
-            ProductsOnTheShip.Remove(product.Key);
-        }
-        
-        // Console.WriteLine("All of the products after EmptyTheCargo");
-        // foreach (var product in ProductsOnTheShip)
-        // {
-        //     Console.WriteLine(product.ToString());
-        // }
+        ProductsOnTheShip.Clear();
+        CargoWeight = 0;
     }
 
     public virtual void LoadTheContainer(Dictionary<int, Product> products)
     {
+        if (products.Count == 0)
+        {
+            Console.WriteLine("No products to load.");
+            return;
+        }
         Console.WriteLine($"Loading the container with the serialNumber: {SerialNumber}");
         //dodac exception dla productow jesli nullorempty etc
         Console.WriteLine($"Products for this container: ");

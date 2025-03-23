@@ -4,8 +4,10 @@ Console.WriteLine("Hello, World!");
 
 Dictionary <int, Product> coolerProducts = new Dictionary<int, Product>();
 Dictionary <int, Product> gasProducts = new Dictionary<int, Product>();
+Dictionary <int, Product> gasProducts2 = new Dictionary<int, Product>();
 Dictionary <int, Product> liquidProducts = new Dictionary<int, Product>();
 Dictionary <int, Product> dangerousLiquidProducts = new Dictionary<int, Product>();
+Dictionary <int, Product> coolerProducts2 = new Dictionary<int, Product>();
 
 
 // Products for Cooler
@@ -96,14 +98,17 @@ Console.WriteLine(superContainer.ToString());
 superContainer.LoadTheContainer(Product.Dict);
 
 //check if it works +
-Console.WriteLine(superContainer.CargoWeight);
+Console.WriteLine("LOADED" + superContainer.ToString());
 
 foreach (var product in superContainer.ProductsOnTheShip)
 {
     Console.WriteLine($"ID: {product.ToString()}");
 }
 
-superContainer.EmptyTheCargo();
+// superContainer.EmptyTheCargo();
+
+// Console.WriteLine("Emptied" + superContainer.ToString());
+
 
 //Container.LoadTheContainer(superContainer, Product.Dict);
 
@@ -118,6 +123,10 @@ LiquidContainer liquidContainer = new LiquidContainer("L",90,6000,180,180);
 Console.WriteLine(liquidContainer.ToString());
 liquidContainer.LoadTheContainer(Product.Dict);
 Console.WriteLine(liquidContainer.ToString());
+// liquidContainer.EmptyTheCargo();
+
+Console.WriteLine(liquidContainer.ToString());
+
 
 //Works well
 //Clearing earlier positions
@@ -132,5 +141,85 @@ LiquidContainer dangerousLiquidContainer = new LiquidContainer("L",90,37070,180,
 Console.WriteLine(dangerousLiquidContainer.ToString());
 dangerousLiquidContainer.LoadTheContainer(Product.Dict);
 Console.WriteLine(dangerousLiquidContainer.ToString());
+// dangerousLiquidContainer.EmptyTheCargo();
+Console.WriteLine(dangerousLiquidContainer.ToString());
 
+Product.ClearProducts();
+
+//Testing Gas
+Product.Dict = gasProducts2;
+gasProducts2.Add(11, hydrogen);
+gasProducts2.Add(12, oxygen);
+gasProducts2.Add(13, nitrogen);
+gasProducts2.Add(14, methane);
+gasProducts2.Add(15, propane);
+gasProducts2.Add(16, butane);
+
+GasContainer gasContainer = new GasContainer("G",90,4000,180,180,3000);
+Console.WriteLine(gasContainer.ToString());
+gasContainer.LoadTheContainer(Product.Dict);
+Console.WriteLine(gasContainer.ToString());
+// gasContainer.EmptyTheCargo();
+Console.WriteLine(gasContainer.ToString());
+
+Product.ClearProducts();
+//Testing Cooler
+
+
+CoolerContainer coolerContainer = new CoolerContainer("C", 90, 6000, 180, 180, 5); // maintained temp = 5°C
+
+// coolerProducts2.Add(1,bananas);
+// coolerProducts2.Add(2,chocolate);
+coolerProducts2.Add(3,fish);
+coolerProducts2.Add(4,meat);
+coolerProducts2.Add(5,iceCream);
+coolerProducts2.Add(6,frozenPizza);
+// coolerProducts2.Add(7,cheese);
+// coolerProducts2.Add(8,sausages);
+// coolerProducts2.Add(9,butter);
+// coolerProducts2.Add(10,eggs);
+
+Product.Dict = coolerProducts2;
+
+Console.WriteLine(coolerContainer.ToString());
+coolerContainer.LoadTheContainer(Product.Dict);
+Console.WriteLine(coolerContainer.ToString());
+// coolerContainer.EmptyTheCargo();
+Console.WriteLine(coolerContainer.ToString());
+
+Ship ship1 = new Ship("SuperStatek", 300, 5, 20);
+Ship ship2 = new Ship("NiedobryStatek", 20, 3, 15);
+
+ship1.LoadContainer(coolerContainer);
+ship1.LoadContainer(gasContainer);
+ship1.LoadContainer(liquidContainer);
+
+Console.WriteLine("Ship 1");
+ship1.PrintShipInfo();
+
+ship1.RemoveContainer(gasContainer.SerialNumber);
+coolerContainer.EmptyTheCargo();
+Console.WriteLine("Ship 1");
+ship1.PrintShipInfo();
+
+CoolerContainer replacementContainer = new CoolerContainer("C", 80, 5000, 180, 180, 5);
+Dictionary<int, Product> replacementProducts = new()
+{
+    { 40, new Product("Tofu", 4.0, 300.0, false, "C") }
+};
+Product.ClearProducts();
+Product.Dict = replacementProducts;
+replacementContainer.LoadTheContainer(Product.Dict);
+ship1.ReplaceContainer(liquidContainer.SerialNumber, replacementContainer);
+
+Console.WriteLine("XXXXXXXXXXX");
+Console.WriteLine("Ship1 po zmiennie produktow");
+ship1.PrintShipInfo();
+Console.WriteLine("XXXXXXXXXXX");
+
+
+ship1.MoveContainerTo(ship2, coolerContainer.SerialNumber);
+
+ship1.PrintShipInfo();
+ship2.PrintShipInfo();
 
