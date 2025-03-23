@@ -5,6 +5,7 @@ Console.WriteLine("Hello, World!");
 Dictionary <int, Product> coolerProducts = new Dictionary<int, Product>();
 Dictionary <int, Product> gasProducts = new Dictionary<int, Product>();
 Dictionary <int, Product> liquidProducts = new Dictionary<int, Product>();
+Dictionary <int, Product> dangerousLiquidProducts = new Dictionary<int, Product>();
 
 
 // Products for Cooler
@@ -58,7 +59,9 @@ Product water = new Product("Water", 0.0, 1000.0, false, "L");
 Product milk = new Product("Milk", -4.0, 950.0, false, "L");
 Product vegetableOil = new Product("Vegetable Oil", 20.0, 920.0, false, "L");
 Product fruitJuice = new Product("Fruit Juice", 5.0, 980.0, false, "L");
-Product honey = new Product("Honey", 18.0, 1400.0, false, "L");
+//if we add 1 weight to the honey, it will be unable to load it for more than 90% of container = LiquidContainer
+Product honey = new Product("Honey", 18.0, 1455.0, false, "L");
+
 
 // Dangerous liquids
 Product gasoline = new Product("Gasoline", -40.0, 750.0, true, "L");
@@ -72,11 +75,11 @@ liquidProducts.Add(22, milk);
 liquidProducts.Add(23, vegetableOil);
 liquidProducts.Add(24, fruitJuice);
 liquidProducts.Add(25, honey);
-liquidProducts.Add(26, gasoline);
-liquidProducts.Add(27, mercury);
-liquidProducts.Add(28, sulfuricAcid);
-liquidProducts.Add(29, ethanol);
-liquidProducts.Add(30, liquidChlorine);
+dangerousLiquidProducts.Add(26, gasoline);
+dangerousLiquidProducts.Add(27, mercury);
+dangerousLiquidProducts.Add(28, sulfuricAcid);
+dangerousLiquidProducts.Add(29, ethanol);
+dangerousLiquidProducts.Add(30, liquidChlorine);
 
 // foreach (var product in Product.Dict)
 // {
@@ -87,13 +90,13 @@ Product.Dict = gasProducts;
 // Product.Dict = liquidProducts;
 // Product.Dict = coolerProducts;
 
-Product.TotalProductsWeight = Product.Dict.Count;
-
-Container superContainer = new Container("C",1500.1,99.9,6000,180,180);
-Console.WriteLine(superContainer.SerialNumber);
-Console.WriteLine(superContainer.SerialNumber);
+Container superContainer = new Container("C",90,6000,180,180);
+Console.WriteLine(superContainer.ToString());
 
 superContainer.LoadTheContainer(Product.Dict);
+
+//check if it works +
+Console.WriteLine(superContainer.CargoWeight);
 
 foreach (var product in superContainer.ProductsOnTheShip)
 {
@@ -101,4 +104,33 @@ foreach (var product in superContainer.ProductsOnTheShip)
 }
 
 superContainer.EmptyTheCargo();
+
 //Container.LoadTheContainer(superContainer, Product.Dict);
+
+
+//Testing liquid Container for safe products
+//Clearing collection of Products to load new products into it:
+Product.ClearProducts();
+//Init Liquid Products
+Product.Dict = liquidProducts;
+
+LiquidContainer liquidContainer = new LiquidContainer("L",90,6000,180,180);
+Console.WriteLine(liquidContainer.ToString());
+liquidContainer.LoadTheContainer(Product.Dict);
+Console.WriteLine(liquidContainer.ToString());
+
+//Works well
+//Clearing earlier positions
+Product.ClearProducts();
+//New Dangerous Liquid Products
+Product.Dict = dangerousLiquidProducts;
+
+//Testing Dangerous Container
+
+//18535 * 2 = 37070
+LiquidContainer dangerousLiquidContainer = new LiquidContainer("L",90,37070,180,180);
+Console.WriteLine(dangerousLiquidContainer.ToString());
+dangerousLiquidContainer.LoadTheContainer(Product.Dict);
+Console.WriteLine(dangerousLiquidContainer.ToString());
+
+

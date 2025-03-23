@@ -55,22 +55,30 @@ public class Product
 
     public static double TotalProductsWeight
     {
-        get => _totalProductsWeight;
-        set
+        get
         {
-            _totalProductsWeight = 0;
+            double total = 0;
             foreach (var item in Dict)
             {
-                value += item.Value.Weight;
+                total += item.Value.Weight;
             }
-            _totalProductsWeight = value;
+            return total;
         }
     }
 
     public static Dictionary<int, Product> Dict
     {
         get => _dict;
-        set => _dict = value;
+        set
+        {
+            _dict = value;
+        }
+    }
+    
+    public static void ClearProducts()
+    {
+        _dict.Clear();
+        _totalProductsWeight = 0;
     }
 
     public override string ToString()

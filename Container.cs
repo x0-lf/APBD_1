@@ -57,13 +57,13 @@ public class Container
         set => _capacity = value;
     }
 
-    private int Height
+    public int Height
     {
         get => _height;
         set => _height = value;
     }
 
-    private int Width
+    public int Width
     {
         get => _width;
         set => _width = value;
