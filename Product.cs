@@ -4,13 +4,13 @@ public class Product
 {
     private static Dictionary <int, Product> _dict = new Dictionary<int, Product>();
 
-    private string _name;
+    private string _name = string.Empty;
     
     private double _temperature;
     private double _weight;
 
     private bool _isDangerous;
-    private string _typeOfProduct;
+    private string _typeOfProduct = string.Empty;
 
     private static double _totalProductsWeight;
 
