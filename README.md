@@ -76,7 +76,11 @@ cd APBD_1
 ### Next Projects in the Series
 
 **[APBD_2 - Simple 20 LINQ xUnit Tests](https://github.com/x0-lf/APBD_2)**
+
 **[APBD_3 - REST API Travel Agency](https://github.com/x0-lf/APBD_3)**
+
 **[APBD_4 - Warehouse Management](https://github.com/x0-lf/APBD_4)**
+
 **[APBD_5 - EF (Code First) App that helps to manage prescriptions](https://github.com/x0-lf/APBD_5)**
+
 **[APBD_6 – EF (Database First) Client and Trip Management API](https://github.com/x0-lf/APBD_6)**
